@@ -1,0 +1,88 @@
+.login {
+    width: 100%;
+    height: 100%;
+    background-image: url(./image/bj.jpg);
+    background-size: 100% 100%;
+
+    .login_header {
+        width: 100%;
+        height: 10%;
+        background-color: rgba(21, 20, 13, 0.5);
+        display: flex;
+        align-items: center;
+
+        .header_logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 30px 0 30px;
+        }
+
+        .header_text {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 800;
+        }
+    }
+
+    .login_section {
+        width: 100%;
+        height: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .section_from {
+            width: 550px;
+            height: 400px;
+            background-color: #1f1f1f;
+            opacity: .8;
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .from_title{
+                color: #ffffff;
+                font-size: 26px;
+                font-weight: 700;
+                padding: 20px 0;
+            }
+            .from_content{
+                width: 100%;
+                height: 200px;
+                padding: 50px;
+                .login-form{
+                    .username{
+                        .username_input{
+                            height: 100%;
+                        }
+                    }
+                    .password{
+                        .password_input{
+                            height: 100%;
+                        }
+                    }
+                    .login-form-button{
+                        width: 100%;
+                        height: 40px;
+                        border-radius: 15px;
+                    }
+                }
+            }
+        }
+    }
+}
+.ant-col{
+    height: 40px;
+}
+.ant-input-affix-wrapper{
+    border-radius: 15px;
+}
+.ant-form-item-control-input-content{
+    height: 40px;
+}
+.ant-form-item-control-input{
+    height: 100%;
+    min-height: 40px;
+}
+.ant-form-item-with-help{
+    margin-bottom: 24px;
+}
