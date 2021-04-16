@@ -7,7 +7,9 @@ import { reqLogin } from "../../api/api";
 export default class Login extends Component {
   // 点击登录按钮
   onFinish = (values) => {
-    reqLogin({ ...values })
+    reqLogin({ ...values }).then(res=>{
+      console.log(res)
+    })
   };
   render() {
     return (

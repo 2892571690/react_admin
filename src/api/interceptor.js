@@ -76,10 +76,10 @@ service.interceptors.response.use((response) => {
         hideLoading()
     }
     if (err.message === 'Network Error') {
-        message.warning('网络连接异常！')
+        return message.warning('网络连接异常！')
     }
     if (err.code === 'ECONNABORTED') {
-        message.warning('请求超时，请重试')
+        return message.warning('请求超时，请重试')
     }
     return Promise.reject(err)
 });

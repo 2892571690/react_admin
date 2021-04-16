@@ -35,7 +35,7 @@ export default function request(url, params, method, headers) {
                 resolve(res.data);
             } else {
                 // 通过配置可关闭错误提示
-                reject(res);
+                message.warning(res.msg)
             }
         }).catch((error) => {
             message.warning('网络连接异常！')
