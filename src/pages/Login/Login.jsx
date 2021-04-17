@@ -1,17 +1,25 @@
 import React, { Component } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./index.less";
-import logo from "./image/logo.png";
+import logo from "../../assets/images/logo.png";
 import { reqLogin } from "../../api/api";
+import store from "../../redux/store";
+import { storeUser } from "../../redux/action/user_action";
+import storageUtils from "../../utils/storageUtils";
 export default class Login extends Component {
   // 点击登录按钮
   onFinish = (values) => {
-    reqLogin({ ...values }).then(res=>{
-      console.log(res)
-    })
+    reqLogin({ ...values }).then((res) => {
+      console.log(res);
+      store.dispatch(storeUser(res));
+      storageUtils.setStore("user", res);
+      this.props.history.replace(`/`);
+      message.success("登录成功");
+    });
   };
   render() {
+    // 判断有没有登录后的user，有就直接跳转到admin页面
     return (
       <div className="login">
         {/* 头部 */}
