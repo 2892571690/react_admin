@@ -43,7 +43,7 @@ class NavLeft extends Component {
     let {pathname} = this.props.location
     return (
       <div className="NavLeft_wrap">
-        <Link to="/" className="NavLeft_header">
+        <Link to="/" className="NavLeft_header"> 
           <div className="header_img">
             <img src={logo} alt="logo" />
           </div>
