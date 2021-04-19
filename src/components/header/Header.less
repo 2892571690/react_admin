@@ -1,4 +1,74 @@
-.Header_wrap{
+.Header_wrap {
     height: 80px;
-    background-color: #595959;
+    background-color: #fff;
+
+    .Header_top {
+        width: 100%;
+        height: 50%;
+        border-bottom: 1px solid #096dd9;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        .user_name {
+            font-weight: 600;
+        }
+
+        .out {
+            font-weight: 600;
+            margin: 0 15px;
+            color: #1890ff;
+        }
+    }
+
+    .Header_bom {
+        height: 50%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .menu_wrap {
+            width: 100px;
+            height: 100%;
+            position: relative;
+            margin: 0 0 0 40px;
+            .menu_name {
+                width: 100%;
+                height: 100%;
+                line-height: 40px;
+                text-align: center;
+                font-size: 16px;
+                font-weight: 700;
+            }
+
+            .sign_bom {
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                border-top: 15px solid #fff;
+                border-bottom: 15px solid transparent;
+                border-left: 15px solid transparent;
+                border-right: 15px solid transparent;
+            }
+        }
+
+        .time_weather {
+            display: flex;
+            align-items: center;
+
+            .time {
+                font-weight: 600;
+                color: #f759ab;
+            }
+
+            .weather {
+                margin: 0 15px;
+                font-weight: 600;
+                color: #ff85c0;
+            }
+        }
+    }
 }
