@@ -153,10 +153,11 @@ export default class Category extends Component {
           visible={showStatus === 1}
           onOk={this.modifyHandleOk}
           onCancel={() => {
+            this.form()
             this.setState({ showStatus: 0 });
           }}
         >
-          <ModifyForm modifyValue={this.modifyValue}/>
+          <ModifyForm modifyValue={this.modifyValue} resetModify={(form) => {this.form = form}}/>
         </Modal>
 
         <Modal
