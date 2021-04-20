@@ -27,7 +27,7 @@ function showLoading() {
         dom.setAttribute('id', 'loading')
         document.body.appendChild(dom)
         ReactDOM.render( < Spin tip = "加载中..."
-            size = "large" / > , dom)
+            size = "large" style={{color:'#1890ff'}}/ > , dom)
     }
     requestCount++
 }
