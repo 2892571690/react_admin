@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import { Card, Button, Table, Space, Modal } from "antd";
+import { Card, Button, Table, Space, Modal, message } from "antd";
 import { PlusOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import { reqCateGoryList } from "../../api/api";
+import {
+  reqCateGoryList,
+  reqAddCateGory,
+  reqUpdateCateGory,
+} from "../../api/api";
 import MyButton from "../../components/myButton/MyButton";
 import AddForm from "./component/add_form";
 import ModifyForm from "./component/modify_form";
@@ -68,7 +72,8 @@ export default class Category extends Component {
   //   点击修改
   showModifyCategory = (item) => {
     return () => {
-      this.modifyValue = item.name;
+      console.log(item);
+      this.modifyValue = item;
       this.setState({
         showStatus: 1,
       });
@@ -81,9 +86,36 @@ export default class Category extends Component {
     });
   };
   //   点击修改弹出框的确定
-  modifyHandleOk = () => {};
+  modifyHandleOk = () => {
+    console.log(this.form.current.getFieldValue());
+    const { _id } = this.modifyValue;
+    const name = this.form.current.getFieldValue("Modify");
+    reqUpdateCateGory({ categoryId: _id, categoryName: name }).then((res) => {
+      message.success("修改成功");
+      this.getCateGoryList();
+      this.setState({
+        showStatus: 0,
+      });
+    });
+  };
   //   点击添加弹出框的确定
-  modifyHandleOk = () => {};
+  addHandleOk = () => {
+    console.log(this.addForm.current.getFieldsValue());
+    const {
+      addFormInput,
+      addFormSelect,
+    } = this.addForm.current.getFieldsValue();
+    reqAddCateGory({
+      categoryName: addFormInput,
+      parentId: addFormSelect,
+    }).then((res) => {
+      message.success("添加成功");
+      this.getCateGoryList();
+      this.setState({
+        showStatus: 0,
+      });
+    });
+  };
   //   为第一次render()准备数据
   UNSAFE_componentWillMount() {
     this.initColumns();
@@ -152,23 +184,36 @@ export default class Category extends Component {
           title="修改"
           visible={showStatus === 1}
           onOk={this.modifyHandleOk}
+          destroyOnClose={true}
           onCancel={() => {
-            this.form()
+            // this.form.current.resetFields()
             this.setState({ showStatus: 0 });
           }}
         >
-          <ModifyForm modifyValue={this.modifyValue} resetModify={(form) => {this.form = form}}/>
+          <ModifyForm
+            modifyValue={this.modifyValue}
+            resetModify={(form) => {
+              this.form = form;
+            }}
+          />
         </Modal>
 
         <Modal
           title="添加"
           visible={showStatus === 2}
           onOk={this.addHandleOk}
+          destroyOnClose={true}
           onCancel={() => {
             this.setState({ showStatus: 0 });
           }}
         >
-          <AddForm />
+          <AddForm
+            dataSource={dataSource}
+            parentId={parentId}
+            resetAdd={(form) => {
+              this.addForm = form;
+            }}
+          />
         </Modal>
       </Card>
     );
