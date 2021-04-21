@@ -97,3 +97,6 @@ img{
 .ant-spin-dot-item{
   background-color: #1890ff !important;
 }
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td, .ant-table tfoot > tr > th, .ant-table tfoot > tr > td{
+  padding: 9.5px !important;
+}
