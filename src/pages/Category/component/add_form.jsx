@@ -17,6 +17,7 @@ export default class AddForm extends Component {
         </div>
         <Form.Item name="addFormSelect">
           <Select>
+            <Option value={0}>一级分类</Option>
             {dataSource.map((item) => {
               return (
                 <Option value={item._id} key={item._id}>

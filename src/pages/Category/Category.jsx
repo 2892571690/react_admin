@@ -46,9 +46,9 @@ export default class Category extends Component {
     ];
   };
   //   获取列表数据
-  getCateGoryList = async () => {
+  getCateGoryList = async (parentid) => {
     this.setState({ loading: true });
-    const { parentId } = this.state;
+    const { parentId } = parentid || this.state;
     const dataSource = await reqCateGoryList({ parentId });
     this.setState({ loading: false });
     if (parentId === 0) {
@@ -110,7 +110,13 @@ export default class Category extends Component {
       parentId: addFormSelect,
     }).then((res) => {
       message.success("添加成功");
-      this.getCateGoryList();
+      if(this.state.parentId === addFormSelect){
+        this.getCateGoryList();
+      }else if(addFormSelect === 0){
+        this.setState({parentId:0})
+        this.getCateGoryList(0)
+      }
+      
       this.setState({
         showStatus: 0,
       });
