@@ -87,40 +87,55 @@ export default class Category extends Component {
   };
   //   点击修改弹出框的确定
   modifyHandleOk = () => {
-    console.log(this.form.current.getFieldValue());
-    const { _id } = this.modifyValue;
-    const name = this.form.current.getFieldValue("Modify");
-    reqUpdateCateGory({ categoryId: _id, categoryName: name }).then((res) => {
-      message.success("修改成功");
-      this.getCateGoryList();
-      this.setState({
-        showStatus: 0,
+    this.form.current
+      .validateFields()
+      .then((res) => {
+        console.log(res);
+        const { _id } = this.modifyValue;
+        // const name = this.form.current.getFieldValue("Modify");
+        const name = res.Modify;
+        reqUpdateCateGory({ categoryId: _id, categoryName: name }).then(
+          (res) => {
+            message.success("修改成功");
+            this.getCateGoryList();
+            this.setState({
+              showStatus: 0,
+            });
+          }
+        );
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
   };
   //   点击添加弹出框的确定
   addHandleOk = () => {
-    console.log(this.addForm.current.getFieldsValue());
-    const {
-      addFormInput,
-      addFormSelect,
-    } = this.addForm.current.getFieldsValue();
-    reqAddCateGory({
-      categoryName: addFormInput,
-      parentId: addFormSelect,
-    }).then((res) => {
-      message.success("添加成功");
-      if(this.state.parentId === addFormSelect){
-        this.getCateGoryList();
-      }else if(addFormSelect === 0){
-        this.setState({parentId:0})
-        this.getCateGoryList(0)
-      }
-      
-      this.setState({
-        showStatus: 0,
+    this.addForm.current
+      .validateFields()
+      .then((res) => {
+        console.log(res);
+        // const {addFormInput,addFormSelect,} = this.addForm.current.getFieldsValue();
+        const { addFormInput, addFormSelect } = res;
+        reqAddCateGory({
+          categoryName: addFormInput,
+          parentId: addFormSelect,
+        }).then((res) => {
+          message.success("添加成功");
+          if (this.state.parentId === addFormSelect) {
+            this.getCateGoryList();
+          } else if (addFormSelect === 0) {
+            this.setState({ parentId: 0 });
+            this.getCateGoryList(0);
+          }
+
+          this.setState({
+            showStatus: 0,
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
   };
   //   为第一次render()准备数据
   UNSAFE_componentWillMount() {

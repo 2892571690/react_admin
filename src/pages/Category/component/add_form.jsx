@@ -9,7 +9,7 @@ export default class AddForm extends Component {
     const { Option } = Select;
     const { dataSource, parentId } = this.props;
     return (
-      <Form ref={this.formRef} initialValues={{addFormSelect:parentId}}>
+      <Form ref={this.formRef} initialValues={{ addFormSelect: parentId }}>
         <div
           style={{ fontSize: "16px", fontWeight: "600", margin: "0 0 5px 0" }}
         >
@@ -36,7 +36,15 @@ export default class AddForm extends Component {
         >
           分类名称:
         </div>
-        <Form.Item name="addFormInput">
+        <Form.Item
+          name="addFormInput"
+          rules={[
+            {
+              required: true,
+              message: "分类名称不能为空!",
+            },
+          ]}
+        >
           <Input placeholder="请输入分类名称" />
         </Form.Item>
       </Form>
