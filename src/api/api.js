@@ -22,3 +22,9 @@ export const reqProductList = (data) => request('/manage/product/list', data, 'G
 
 // 搜索商品管理的数据 productName productDesc pageNum pageSize
 export const reqSearchProduct = (data) => request('/manage/product/search', data, 'GET', false)
+
+// 获取商品管理详情的分类 categoryId
+export const reqCategoryInfo = (data) => request('/manage/category/info', data, 'GET', false)
+
+// 更新商品管理的上下架状态 productId status
+export const reqUpdateProductStatus = (data) => request('/manage/product/updateStatus', data, 'POST', false)

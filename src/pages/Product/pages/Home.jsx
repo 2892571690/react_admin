@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Card, Select, Button, Input, Table, Tag } from 'antd';
+import { Card, Select, Button, Input, Table, Tag, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { reqProductList, reqSearchProduct } from '../../../api/api';
-
-import '../less/Home.less';
+import { reqProductList, reqSearchProduct, reqUpdateProductStatus } from '../../../api/api';
 
 const { Option } = Select;
 
@@ -59,7 +57,7 @@ export default class Home extends Component {
 		);
 
 		const extra = (
-			<Button type="primary" icon={<PlusOutlined />}>
+			<Button type="primary" icon={<PlusOutlined />} onClick={()=> this.props.history.push('/product/addupdate')}>
 				添加商品
 			</Button>
 		);
@@ -87,6 +85,7 @@ export default class Home extends Component {
 
 	//获取列表数据
 	getProductList = async (pageNum) => {
+		this.pageNum = pageNum;
 		const { searchType, searchValue } = this.state;
 		this.setState({ loading: true });
 		let res;
@@ -100,6 +99,19 @@ export default class Home extends Component {
 			total: res.total,
 			dataSource: res.list
 		});
+	};
+
+	// 更改商品上下架的状态
+	updateStatus = (status, id) => {
+		return () => {
+			reqUpdateProductStatus({
+				productId: id,
+				status: status
+			}).then((res) => {
+				message.success('更新成功');
+				this.getProductList(this.pageNum);
+			});
+		};
 	};
 
 	// 初始化Columns数据
@@ -123,29 +135,31 @@ export default class Home extends Component {
 			},
 			{
 				title: '状态',
-				width: 100,
-				dataIndex: 'status',
-				render: (status) => {
+				width: 120,
+				// dataIndex: 'status',
+				render: (product) => {
+					const { status, _id } = product;
 					return (
 						<span style={{ display: 'flex' }}>
 							<Button
 								type="primary"
 								style={{ width: 40, height: 30, fontSize: 12, padding: 0, margin: '0 10px 0 0' }}
+								onClick={this.updateStatus(status === 1 ? 2 : 1, _id)}
 							>
-								下架
+								{status === 1 ? '下架' : '上架'}
 							</Button>
 							<Tag
 								color="green"
 								style={{
 									margin: 0,
-									width: 40,
+									width: 60,
 									height: 30,
 									lineHeight: '28px',
 									padding: 0,
 									textAlign: 'center'
 								}}
 							>
-								在售
+								{status === 1 ? '在售' : '已下架'}
 							</Tag>
 						</span>
 					);
@@ -160,6 +174,7 @@ export default class Home extends Component {
 							<Button
 								type="primary"
 								style={{ width: 40, height: 30, fontSize: 12, padding: 0, margin: '0 10px 0 0' }}
+								onClick={() => this.props.history.push('/product/detail', { product })}
 							>
 								详情
 							</Button>
