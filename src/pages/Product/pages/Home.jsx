@@ -57,7 +57,11 @@ export default class Home extends Component {
 		);
 
 		const extra = (
-			<Button type="primary" icon={<PlusOutlined />} onClick={()=> this.props.history.push('/product/addupdate')}>
+			<Button
+				type="primary"
+				icon={<PlusOutlined />}
+				onClick={() => this.props.history.push('/product/addupdate')}
+			>
 				添加商品
 			</Button>
 		);
@@ -178,7 +182,11 @@ export default class Home extends Component {
 							>
 								详情
 							</Button>
-							<Button type="primary" style={{ width: 40, height: 30, fontSize: 12, padding: 0 }}>
+							<Button
+								type="primary"
+								style={{ width: 40, height: 30, fontSize: 12, padding: 0 }}
+								onClick={() => this.props.history.push('/product/addupdate', product)}
+							>
 								修改
 							</Button>
 						</span>
