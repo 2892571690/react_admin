@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { Card, Button, Input, Form, Cascader, Upload, InputNumber } from 'antd';
+import { Card, Button, Input, Form, Cascader, Upload, InputNumber, message } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { reqCateGoryList } from '../../../api/api';
+import { reqCateGoryList, reqAddProducr, reqUpdateProducr } from '../../../api/api';
+import PicturesWall from './Pictures-wall';
+import RichTextEditor from './RichTextEditor';
 
 const { TextArea } = Input;
 export default class AddUpdate extends Component {
 	state = {
 		options: [] //存放分类的数组
 	};
+
+	pw = React.createRef();
+	editor = React.createRef();
 
 	componentDidMount() {
 		this.getCategory('0');
@@ -25,7 +30,7 @@ export default class AddUpdate extends Component {
 	render() {
 		const { options } = this.state;
 		const { isUpdate, product } = this;
-		const { pCategoryId, categoryId } = product;
+		const { pCategoryId, categoryId, imgs, detail } = product;
 		// 用来接收级联分类ID的数组
 		const categoryIds = [];
 		if (categoryId) {
@@ -117,11 +122,16 @@ export default class AddUpdate extends Component {
 					>
 						<Cascader options={options} loadData={this.loadData} />
 					</Form.Item>
-					<Form.Item label="商品图片：">
-						<Input type="number" placeholder="请输入商品图片" addonAfter="元" />
+					<Form.Item className="PicturesWall" label="商品图片：" labelCol={{ span: 2 }} wrapperCol={{ span: 10 }}>
+						<PicturesWall ref={this.pw} imgs={imgs} />
 					</Form.Item>
-					<Form.Item label="商品详情：">
-						<Input type="number" placeholder="请输入商品详情" addonAfter="元" />
+					<Form.Item
+						label="商品详情："
+						className="RichTextEditor"
+						labelCol={{ span: 2 }}
+						wrapperCol={{ span: 20 }}
+					>
+						<RichTextEditor ref={this.editor} detail={detail} />
 					</Form.Item>
 					<Form.Item>
 						<Button type="primary" htmlType="submit" className="login-form-button">
@@ -134,8 +144,40 @@ export default class AddUpdate extends Component {
 	}
 
 	// 提交表单
-	onFinish = (value) => {
-		console.log(value);
+	onFinish = async (value) => {
+		const { shopName, shopDescribe, shopPrice, shopClassification } = value;
+		let pCategoryId, categoryId;
+		if (shopClassification.length === 1) {
+			pCategoryId = '0';
+			categoryId = shopClassification[0];
+		} else {
+			pCategoryId = shopClassification[0];
+			categoryId = shopClassification[1];
+		}
+		const imgs = this.pw.current.getImageList();
+		const editor = this.editor.current.getDetail();
+		const product = {
+			name: shopName,
+			desc: shopDescribe,
+			price: shopPrice,
+			imgs,
+			detail: editor,
+			pCategoryId,
+			categoryId
+		};
+		if (this.isUpdate) {
+			product._id = this.product._id;
+		}
+		if (product._id) {
+			// 更新商品
+			const res = await reqUpdateProducr({ ...product });
+			message.success('修改成功！');
+		} else {
+			// 添加商品
+			const res = await reqAddProducr({ ...product });
+			message.success('添加成功！');
+		}
+		this.props.history.goBack();
 	};
 
 	// 级联选择
@@ -160,7 +202,7 @@ export default class AddUpdate extends Component {
 			//当前选中的分类没有二级分类
 			targetOption.isLeaf = true;
 		}
-		this.setState([ ...options ]);
+		this.setState(options);
 	};
 
 	// 获取分类
