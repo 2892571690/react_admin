@@ -29,14 +29,18 @@ class Header extends Component {
   };
   // 获取title
   getTitle() {
+    // 得到当前请求路径
     const path = this.props.location.pathname;
     let title = null;
     menuList.forEach((item) => {
-      if (item.key === path) {
+      if (item.key === path) {//如果当前item对象的key与path一样，item的title就是需要显示的title
         title = item.title;
       } else if (item.children) {
-        const cItem = item.children.find((cItem) => cItem.key === path);
+        // 在所有子item中查找匹配的
+        const cItem = item.children.find((cItem) => path.indexOf(cItem.key) === 0);
+        // 如果有值才说明有匹配
         if (cItem) {
+          // 取出它的title
           title = cItem.title;
         }
       }

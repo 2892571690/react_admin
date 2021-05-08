@@ -100,3 +100,9 @@ img{
 .ant-table-thead > tr > th, .ant-table-tbody > tr > td, .ant-table tfoot > tr > th, .ant-table tfoot > tr > td{
   padding: 9.5px !important;
 }
+.ant-card{
+  height: 100%;
+}
+.ant-table-wrapper{
+  height: 100%;
+}
