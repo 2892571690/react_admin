@@ -43,3 +43,6 @@ export const reqRoles = (data) => request('/manage/role/list', data, 'GET', fals
 
 // 添加角色 roleName
 export const reqAddRoles = (data) => request('/manage/role/add', data, 'POST', false);
+
+// 设置角色权限 roleId authName menus 
+export const reqUpdateRoles = (data) => request('/manage/role/update', data, 'POST', false);
