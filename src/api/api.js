@@ -46,3 +46,6 @@ export const reqAddRoles = (data) => request('/manage/role/add', data, 'POST', f
 
 // 设置角色权限 roleId authName menus 
 export const reqUpdateRoles = (data) => request('/manage/role/update', data, 'POST', false);
+
+// 获取用户列表
+export const reqUserList = (data) => request('/manage/user/list', data, 'GET', false);
